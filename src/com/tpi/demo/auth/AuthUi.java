@@ -9,10 +9,9 @@ public class AuthUi {
 
     private final Scanner scanner;
     private final PrintStream printStream;
-    private final Auth auth;
+    private final AuthService auth;
 
-
-    public AuthUi(Scanner scanner, PrintStream printStream, Auth auth) {
+    public AuthUi(Scanner scanner, PrintStream printStream, AuthService auth) {
         this.scanner = scanner;
         this.printStream = printStream;
         this.auth = auth;

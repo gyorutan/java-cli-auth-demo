@@ -12,7 +12,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PrintStream printStream = System.out;
+        // JdbcAuthService auth = new JdbcAuthService();
         Auth auth = new Auth();
+
         AuthUi authUi = new AuthUi(scanner, printStream, auth);
 
         authUi.registerInput();

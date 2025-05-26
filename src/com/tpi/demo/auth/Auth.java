@@ -6,7 +6,7 @@ import java.util.Objects;
 
 /** <em>이 클래스는 AUTH 클래스입니다.</em>
  */
-public class Auth {
+public class Auth implements AuthService {
 
     // List <= 사이즈가 변할 수 있는 배열
     private final List<User> userList;
@@ -16,11 +16,13 @@ public class Auth {
         this.userList = new ArrayList<>();
     }
 
-    public void register (User user) {
+    @Override
+    public void register(User user) {
         userList.add(user);
     }
 
-    public void login (User user) {
+    @Override
+    public void login(User user) {
 
         User matchedUser = userList.stream()
                 .filter((item) -> item.getUsername().equals(user.getUsername()))
