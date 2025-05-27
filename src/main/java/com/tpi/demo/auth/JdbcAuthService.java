@@ -2,10 +2,12 @@ package com.tpi.demo.auth;
 
 
 import java.sql.*;
+import java.util.Objects;
 
 public class JdbcAuthService implements AuthService {
     // DB 연결
     private final String dbUrl;
+    private User signedUser;
 
 //  static {} <- 나중에 공부
 
@@ -18,16 +20,14 @@ public class JdbcAuthService implements AuthService {
     public void register(User user) {
         String sql = "INSERT INTO users(username, password)" +
                 " VALUES(?,?)";
-        try (Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+        try (
+                Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
+                PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             // insert, update, delete 는 executeUpdate()로 실행
-            int rows = stmt.executeUpdate(); // 행의 수를 확인하기
-            // 예시 로직(지금은 rows 에 0이 올 수 없다)
-            if (rows == 0) {
-                throw new RuntimeException("데이터가 저장되지 않았습니다");
-            }
+            stmt.executeUpdate(); // executeUpdate() 는 행(rows)의 수를 반환함
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -35,7 +35,32 @@ public class JdbcAuthService implements AuthService {
 
     @Override
     public void login(User user) {
+        String sql = "SELECT password" +
+                " FROM users" +
+                " WHERE username=?";
+        try (
+                Connection conn = DriverManager.getConnection(dbUrl);
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setString(1, user.getUsername());
+            try (ResultSet rs = stmt.executeQuery()) {
+                // rs.next 를 실행해야 데이터를 다룰 수 있다.
+                if (rs.next()) { // 여러 행일 땐 if 대신 while 사용
+                    String dbPassword = rs.getString("password");
+                    boolean isMatched = Objects.equals(dbPassword, user.getPassword());
 
+                    if (!isMatched) {
+                        throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다");
+                    }
+
+                    signedUser = user;
+                } else {
+                    throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void createTable() {
