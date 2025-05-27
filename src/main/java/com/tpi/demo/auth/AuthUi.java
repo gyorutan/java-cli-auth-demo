@@ -17,15 +17,11 @@ public class AuthUi {
         this.auth = auth;
     }
 
-//    public void ShowHomeUi() {
-//
-//    }
-
     public void registerInput() {
-        printStream.println("회원가입을 진행합니다");
-        printStream.print("유저네임 : ");
+        printStream.println("Starting registration.");
+        printStream.print("username : ");
         String username = scanner.nextLine();
-        printStream.print("비밀번호 : ");
+        printStream.print("password : ");
         String password = scanner.nextLine();
 
         User user = new User(username, password);
@@ -34,10 +30,10 @@ public class AuthUi {
     }
 
     public void loginInput() {
-        printStream.println("로그인을 진행합니다");
-        printStream.print("유저네임 : ");
+        printStream.println("Starting login.");
+        printStream.print("username : ");
         String username = scanner.nextLine();
-        printStream.print("비밀번호 : ");
+        printStream.print("password : ");
         String password = scanner.nextLine();
 
         User user = new User(username, password);
@@ -49,8 +45,12 @@ public class AuthUi {
             return;
         }
 
-        printStream.println(user.getUsername() + "님이 로그인하였습니다");
+        printStream.println("Welcome to my project, " + user.getUsername());
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 }
