@@ -1,10 +1,7 @@
 package com.tpi.demo.auth;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class JdbcAuthService implements AuthService {
     // DB 연결
@@ -19,7 +16,21 @@ public class JdbcAuthService implements AuthService {
 
     @Override
     public void register(User user) {
-
+        String sql = "INSERT INTO users(username, password)" +
+                " VALUES(?,?)";
+        try (Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            // insert, update, delete 는 executeUpdate()로 실행
+            int rows = stmt.executeUpdate(); // 행의 수를 확인하기
+            // 예시 로직(지금은 rows 에 0이 올 수 없다)
+            if (rows == 0) {
+                throw new RuntimeException("데이터가 저장되지 않았습니다");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
