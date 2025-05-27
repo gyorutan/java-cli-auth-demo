@@ -53,6 +53,7 @@ public class JdbcAuthService implements AuthService {
                     }
 
                     signedUser = user;
+
                 } else {
                     throw new RuntimeException("Invalid username or password.");
                 }
@@ -76,4 +77,14 @@ public class JdbcAuthService implements AuthService {
             e.printStackTrace();
         }
     }
+
+    public User getUserSession() {
+        return signedUser;
+    }
+
+    public void logoutUser() {
+        signedUser = null;
+    }
+
+//    public boolean
 }

@@ -1,5 +1,7 @@
 package com.tpi.demo.auth;
 
+import com.tpi.demo.util.ThreadUtils;
+
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -27,6 +29,10 @@ public class AuthUi {
         User user = new User(username, password);
 
         auth.register(user);
+
+        printStream.println("Registration complete");
+
+        ThreadUtils.sleep(1000);
     }
 
     public void loginInput() {
@@ -47,10 +53,13 @@ public class AuthUi {
 
         printStream.println("Welcome to my project, " + user.getUsername());
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        ThreadUtils.sleep(1000);
+    }
+
+    public void logout() {
+       auth.logoutUser();
+       printStream.println("user logged out successfully");
+
+       ThreadUtils.sleep(1000);
     }
 }

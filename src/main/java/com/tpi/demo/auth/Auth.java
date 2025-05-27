@@ -39,4 +39,14 @@ public class Auth implements AuthService {
         signedUser = matchedUser;
     }
 
+    @Override
+    public User getUserSession() {
+       throw new Error("I do not use this");
+    }
+
+    @Override
+    public void logoutUser() {
+        throw new Error("I do not use this");
+    }
+
 }
