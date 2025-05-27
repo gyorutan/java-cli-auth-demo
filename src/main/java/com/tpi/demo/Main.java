@@ -14,9 +14,9 @@ public class Main {
         String dbUrl = "jdbc:sqlite:./auth.db";
         Scanner scanner = new Scanner(System.in);
         PrintStream printStream = System.out;
-        JdbcAuthService db = new JdbcAuthService(dbUrl);
-        AuthUi authUi = new AuthUi(scanner, printStream, db);
-        HomeUi homeUi = new HomeUi(scanner, printStream, authUi);
+        JdbcAuthService authService = new JdbcAuthService(dbUrl);
+        AuthUi authUi = new AuthUi(scanner, printStream, authService);
+        HomeUi homeUi = new HomeUi(scanner, printStream, authUi, authService);
 
         homeUi.run();
     }
