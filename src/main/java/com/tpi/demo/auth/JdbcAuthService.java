@@ -1,6 +1,5 @@
 package com.tpi.demo.auth;
 
-
 import java.sql.*;
 import java.util.Objects;
 
@@ -50,12 +49,12 @@ public class JdbcAuthService implements AuthService {
                     boolean isMatched = Objects.equals(dbPassword, user.getPassword());
 
                     if (!isMatched) {
-                        throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다");
+                        throw new RuntimeException("Invalid username or password.");
                     }
 
                     signedUser = user;
                 } else {
-                    throw new RuntimeException("아이디 또는 비밀번호가 일치하지 않습니다");
+                    throw new RuntimeException("Invalid username or password.");
                 }
             }
         } catch (SQLException e) {
