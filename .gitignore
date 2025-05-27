@@ -1,3 +1,7 @@
+### local ###
+auth.db
+
+### Gradle ###
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
