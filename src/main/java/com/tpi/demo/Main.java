@@ -1,7 +1,7 @@
 package com.tpi.demo;
 
-import com.tpi.demo.auth.Auth;
 import com.tpi.demo.auth.AuthUi;
+import com.tpi.demo.auth.JdbcAuthService;
 
 import java.io.PrintStream;
 import java.util.Scanner;
@@ -12,10 +12,9 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         PrintStream printStream = System.out;
-        // JdbcAuthService auth = new JdbcAuthService();
-        Auth auth = new Auth();
+        JdbcAuthService db = new JdbcAuthService();
 
-        AuthUi authUi = new AuthUi(scanner, printStream, auth);
+        AuthUi authUi = new AuthUi(scanner, printStream, db);
 
         authUi.registerInput();
 
