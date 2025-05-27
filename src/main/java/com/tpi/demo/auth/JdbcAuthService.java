@@ -23,11 +23,7 @@ public class JdbcAuthService implements AuthService {
             stmt.setString(1, user.getUsername());
             stmt.setString(2, user.getPassword());
             // insert, update, delete 는 executeUpdate()로 실행
-            int rows = stmt.executeUpdate(); // 행의 수를 확인하기
-            // 예시 로직(지금은 rows 에 0이 올 수 없다)
-            if (rows == 0) {
-                throw new RuntimeException("데이터가 저장되지 않았습니다");
-            }
+            stmt.executeUpdate(); // executeUpdate() 는 행(rows)의 수를 반환함
         } catch (SQLException e) {
             e.printStackTrace();
         }
