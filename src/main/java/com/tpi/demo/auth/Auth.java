@@ -6,6 +6,7 @@ import java.util.Objects;
 
 /** <em>이 클래스는 AUTH 클래스입니다.</em>
  */
+@Deprecated
 public class Auth implements AuthService {
 
     // List <= 사이즈가 변할 수 있는 배열
