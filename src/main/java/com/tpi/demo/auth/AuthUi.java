@@ -17,6 +17,10 @@ public class AuthUi {
         this.auth = auth;
     }
 
+//    public void ShowHomeUi() {
+//
+//    }
+
     public void registerInput() {
         printStream.println("회원가입을 진행합니다");
         printStream.print("유저네임 : ");
