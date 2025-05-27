@@ -1,24 +1,36 @@
 package com.tpi.demo.auth;
 
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class JdbcAuthService implements AuthService {
     // DB 연결
-    private static final String DB_URL = "jdbc:sqlite:./auth.db";
+    private final String dbUrl;
 
 //  static {} <- 나중에 공부
 
-    public JdbcAuthService() {
+    public JdbcAuthService(String dbUrl) {
+        this.dbUrl = dbUrl;
         createTable();
     }
 
     @Override
     public void register(User user) {
-
+        String sql = "INSERT INTO users(username, password)" +
+                " VALUES(?,?)";
+        try (Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            // insert, update, delete 는 executeUpdate()로 실행
+            int rows = stmt.executeUpdate(); // 행의 수를 확인하기
+            // 예시 로직(지금은 rows 에 0이 올 수 없다)
+            if (rows == 0) {
+                throw new RuntimeException("데이터가 저장되지 않았습니다");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -33,7 +45,7 @@ public class JdbcAuthService implements AuthService {
                 "  password TEXT NOT NULL" +
                 ");";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL); // DB 연결
+        try (Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql); // SQL 실행 (테이블 생성)
         } catch (SQLException e) {
