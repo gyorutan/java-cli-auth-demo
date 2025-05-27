@@ -10,9 +10,10 @@ import java.util.Scanner;
 */
 public class Main {
     public static void main(String[] args) {
+        String dbUrl = "jdbc:sqlite:./auth.db";
         Scanner scanner = new Scanner(System.in);
         PrintStream printStream = System.out;
-        JdbcAuthService db = new JdbcAuthService();
+        JdbcAuthService db = new JdbcAuthService(dbUrl);
 
         AuthUi authUi = new AuthUi(scanner, printStream, db);
 

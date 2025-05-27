@@ -8,11 +8,12 @@ import java.sql.Statement;
 
 public class JdbcAuthService implements AuthService {
     // DB 연결
-    private static final String DB_URL = "jdbc:sqlite:./auth.db";
+    private final String dbUrl;
 
 //  static {} <- 나중에 공부
 
-    public JdbcAuthService() {
+    public JdbcAuthService(String dbUrl) {
+        this.dbUrl = dbUrl;
         createTable();
     }
 
@@ -33,7 +34,7 @@ public class JdbcAuthService implements AuthService {
                 "  password TEXT NOT NULL" +
                 ");";
 
-        try (Connection conn = DriverManager.getConnection(DB_URL); // DB 연결
+        try (Connection conn = DriverManager.getConnection(dbUrl); // DB 연결
              Statement stmt = conn.createStatement()) {
             stmt.execute(sql); // SQL 실행 (테이블 생성)
         } catch (SQLException e) {
